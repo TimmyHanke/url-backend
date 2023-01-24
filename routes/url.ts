@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
   if (error) return res.status(400).send(error.message);
 
   const { original } = req.body;
-
+  // generate id that is later set to be added to the new short Url
   const addon = shortid.generate();
 
   // Checks if the sent Url is a valid url
@@ -47,11 +47,13 @@ router.post("/", async (req, res) => {
   }
 });
 router.get("/", async (req, res) => {
+  // returns all Urls in the database.
   const url = await Url.find();
   return res.send(url);
 });
 
 router.delete("/:id", async (req, res) => {
+  // finds the desired Url in the database and deletes it.
   const url = await Url.findByIdAndDelete(req.params.id);
   if (!url)
     return res.status(404).send("The order DOES NOT exist in the database");
